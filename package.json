@@ -1,6 +1,6 @@
 {
   "name": "gulp-thymeleaf",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Thymeleaf plugin for gulp",
   "main": "index.js",
   "scripts": {
