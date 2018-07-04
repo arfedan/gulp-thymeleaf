@@ -31,12 +31,14 @@ gulp.task('html', function() {
 Give context and options for template
 
 ```js
+const fs   = require('fs')
 const gulp = require('gulp');
 const thymeleaf = require('gulp-thymeleaf');
 
 gulp.task('html', function() {
   gulp.src('./src/**/*.html')
-      .pipe(thymeleaf({ userName: 'Chuck Norris' }, { isomorphic: { prefix: 'th' } }))
+      .pipe(thymeleaf({ userName: 'Chuck Norris' },
+                      { templateResolver: name => fs.readFileSync(`templates/${name}.html`) }))
       .pipe(gulp.dest('./build'))
 })
 ```
@@ -44,12 +46,13 @@ gulp.task('html', function() {
 Give only options for template
 
 ```js
+const fs   = require('fs')
 const gulp = require('gulp');
 const thymeleaf = require('gulp-thymeleaf');
 
 gulp.task('html', function() {
   gulp.src('./src/**/*.html')
-      .pipe(thymeleaf({}, { isomorphic: { prefix: 'th' } }))
+      .pipe(thymeleaf({}, { templateResolver: name => fs.readFileSync(`templates/${name}.html`) }))
       .pipe(gulp.dest('./build'))
 })
 ```
@@ -73,3 +76,9 @@ Given `options` will override `STANDARD_CONFIGURATION`.
 
 See [available options](https://www.npmjs.com/package/thymeleaf#new-templateengineoptions)
 on ThymeleafJS document.
+
+
+Note
+----
+
+* Default options are based on `STANDARD_CONFIGURATION` which makes prefix `th` (NOT `thjs`).
