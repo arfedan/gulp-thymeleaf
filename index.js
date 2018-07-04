@@ -8,7 +8,7 @@ const PLUGIN_NAME = 'gulp-thymeleaf'
 
 function gulpThymeleaf(context, options) {
   context = context || {}
-  options = options || thymeleaf.STANDARD_CONFIGURATION
+  options = Object.assign({}, thymeleaf.STANDARD_CONFIGURATION, options)
 
   return through.obj((file, enc, cb) => {
     if (file.isNull()) {
