@@ -1,0 +1,21 @@
+{
+  "name": "gulp-thymeleaf",
+  "version": "0.0.0",
+  "description": "Thymeleaf plugin for gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kanon Kakuno <yadex205@outlook.jp>",
+  "license": "MIT",
+  "keywords": [
+    "gulp",
+    "gulpplugin",
+    "thymeleaf"
+  ],
+  "dependencies": {
+    "plugin-error": "^1.0.1",
+    "through2": "^2.0.3",
+    "thymeleaf": "^0.12.0"
+  }
+}
