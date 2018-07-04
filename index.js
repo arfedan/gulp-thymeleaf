@@ -3,6 +3,7 @@
 const through     = require('through2')
 const PluginError = require('plugin-error')
 const thymeleaf   = require('thymeleaf')
+const log         = require('fancy-log')
 
 const PLUGIN_NAME = 'gulp-thymeleaf'
 
@@ -10,7 +11,7 @@ function gulpThymeleaf(context, options) {
   context = context || {}
   options = Object.assign({}, thymeleaf.STANDARD_CONFIGURATION, options)
 
-  return through.obj((file, enc, cb) => {
+  return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
       return cb(null, file)
     }
@@ -23,12 +24,12 @@ function gulpThymeleaf(context, options) {
     engine.process(file.contents, context)
       .then((result) => {
         file.contents = new Buffer(result)
+        cb(null, file)
       })
       .catch((error) => {
-        this.emit('error', new PluginError('gulp-thymeleaf', error.toString()))
+        log.error(new PluginError('gulp-thymeleaf', error.toString()).toString())
+        cb(null, file)
       })
-
-    cb(null, file)
   })
 }
 
