@@ -2,7 +2,7 @@
 
 const through     = require('through2')
 const PluginError = require('plugin-error')
-const thymeleaf   = require('thymeleaf')
+const thymeleaf   = require('@yadex205/thymeleaf')
 const log         = require('fancy-log')
 
 const PLUGIN_NAME = 'gulp-thymeleaf'
