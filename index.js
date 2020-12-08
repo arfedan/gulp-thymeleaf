@@ -7,30 +7,36 @@ const log         = require('fancy-log')
 
 const PLUGIN_NAME = 'gulp-thymeleaf'
 
-function gulpThymeleaf(customContext, messages, customOptions) {
+const getNamespaceFromFile = file => {
+  const [,dirname] = file.path.split(file.base).pop().split('/');
 
-  const defaultOptions = {
-    dialects: [
-      new thymeleaf.StandardDialect('th')
-    ],
-    messageResolver: (key, parameters) => {
-      const pairs = (parameters || []).map((param, i) => [i, param]);
+  return dirname;
+};
 
-      let text = messages[key];
-
-      pairs.forEach(([i, value]) => {
-        text = text.replace(`{${i}}`, value);
-      });
-
-      return text;
-    }
-  };
-
-
-  const context = customContext || {}
-  const options = { ...thymeleaf.STANDARD_CONFIGURATION, ...defaultOptions, ...customOptions };
-
+function gulpThymeleaf(namespacedContext, messages, customOptions) {
   return through.obj(function(file, enc, cb) {
+    const defaultOptions = {
+      dialects: [
+        new thymeleaf.StandardDialect('th')
+      ],
+      messageResolver: (key, parameters) => {
+        const pairs = (parameters || []).map((param, i) => [i, param]);
+
+        let text = messages[key];
+
+        pairs.forEach(([i, value]) => {
+          text = text.replace(`{${i}}`, value);
+        });
+
+        return text;
+      }
+    };
+
+    const namespace = getNamespaceFromFile(file);
+
+    const context = (namespacedContext[namespace]) || {};
+    const options = { ...thymeleaf.STANDARD_CONFIGURATION, ...defaultOptions, ...customOptions };
+
     if (file.isNull()) {
       return cb(null, file)
     }
